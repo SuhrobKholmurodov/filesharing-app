@@ -33,7 +33,7 @@ const Upload = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[70vh] w-full bg-gray-50 overflow-hidden">
+    <div className="flex items-center justify-center h-[70vh] w-full bg-gray-50 sm:bg-transparent overflow-hidden">
       <div className="w-full max-w-md mx-4">
         <div className="bg-white rounded-xl shadow-xl p-8 transition-all duration-300 transform hover:shadow-2xl">
           <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
@@ -79,9 +79,10 @@ const Upload = () => {
           </button>
 
           {file && (
-            <div className="mt-4 bg-gray-100 p-3 rounded-lg text-center">
+            <div className="mt-4 bg-gray-100 p-3 rounded-lg text-center break-words">
               <p className="text-sm text-gray-600">
-                Ready to upload: <span className="font-medium">{fileName}</span>
+                Ready to upload:
+                <span className="font-medium break-words">{fileName}</span>
               </p>
             </div>
           )}

@@ -90,13 +90,13 @@ const Files = () => {
   };
 
   return (
-    <div className="flex flex-col bg-gray-100">
+    <div className="flex flex-col sm:bg-transparent bg-gray-100">
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold flex items-center space-x-2">
+            <h1 className="text-2xl  font-bold flex items-center space-x-2">
               <HardDrive className="text-indigo-600" />
-              <span>File Manager</span>
+              <span className="sm:hidden">File Manager</span>
             </h1>
             <div className="flex space-x-3">
               <button
@@ -109,7 +109,8 @@ const Files = () => {
                 } transition-colors`}
               >
                 <DownloadCloud size={18} className="mr-2" />
-                Download ({selectedFiles.size})
+                <span className="sm:hidden">Download</span> (
+                {selectedFiles.size})
               </button>
               <DeleteDialog
                 onConfirm={handleDeleteSelected}
@@ -124,7 +125,8 @@ const Files = () => {
                     } transition-colors`}
                   >
                     <Trash2 size={18} className="mr-2" />
-                    Delete ({selectedFiles.size})
+                    <span className="sm:hidden">Delete</span> (
+                    {selectedFiles.size})
                   </button>
                 }
               />
@@ -133,7 +135,7 @@ const Files = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-8 flex-1">
+      <div className="container mx-auto px-6 sm:px-0 py-8 flex-1">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
           {files.length === 0 ? (
             <div className="flex flex-col items-center justify-center p-12 text-center">
