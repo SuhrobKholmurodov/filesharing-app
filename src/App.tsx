@@ -1,4 +1,5 @@
 import { BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from "react-fox-toast";
 import Header from "./components/common/Header";
 import AppRoutes from "./routes";
 
@@ -10,6 +11,7 @@ const App = () => {
         <main className="mx-auto px-[200px] py-8">
           <AppRoutes />
         </main>
+        <ToastContainer />
       </div>
     </Router>
   );

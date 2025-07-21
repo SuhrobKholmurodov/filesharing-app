@@ -24,7 +24,7 @@ const DeleteDialog = ({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent className="w-[400px]">
         <AlertDialogHeader>
           <AlertDialogTitle className="text-red-600">
             Confirm Deletion

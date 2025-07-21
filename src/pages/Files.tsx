@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { DownloadCloud, File, HardDrive, Trash2 } from "lucide-react";
+import {
+  DownloadCloud,
+  File,
+  FolderMinus,
+  HardDrive,
+  Trash2,
+} from "lucide-react";
+import { toast } from "react-fox-toast";
 import { fileTypeToIcon } from "@/utils";
 import DeleteDialog from "@/components/common/DeleteDialog";
 interface FileData {
@@ -45,7 +52,41 @@ const Files = () => {
     const updatedFiles = files.filter((_, index) => !selectedFiles.has(index));
     setFiles(updatedFiles);
     localStorage.setItem("files", JSON.stringify(updatedFiles));
+    const count = selectedFiles.size;
     setSelectedFiles(new Set());
+    toast.custom(
+      <div className="flex items-center gap-2 text-sm font-medium">
+        <span>{count} file(s) deleted successfully!</span>
+      </div>,
+      {
+        position: "top-center",
+        icon: (
+          <div className="flex size-8 items-center justify-center rounded-lg bg-yellow-100 text-yellow-600">
+            <FolderMinus size={18} />
+          </div>
+        ),
+      }
+    );
+  };
+
+  const onConfirmSingleDelete = (index: number) => {
+    const newFiles = [...files];
+    newFiles.splice(index, 1);
+    setFiles(newFiles);
+    localStorage.setItem("files", JSON.stringify(newFiles));
+    toast.custom(
+      <div className="flex items-center gap-2 text-sm font-medium">
+        <span>File deleted successfully!</span>
+      </div>,
+      {
+        position: "top-center",
+        icon: (
+          <div className="flex size-8 items-center justify-center rounded-lg bg-red-100 text-red-600">
+            <Trash2 size={18} />
+          </div>
+        ),
+      }
+    );
   };
 
   return (
@@ -147,12 +188,7 @@ const Files = () => {
                       <DownloadCloud size={20} />
                     </button>
                     <DeleteDialog
-                      onConfirm={() => {
-                        const newFiles = [...files];
-                        newFiles.splice(index, 1);
-                        setFiles(newFiles);
-                        localStorage.setItem("files", JSON.stringify(newFiles));
-                      }}
+                      onConfirm={() => onConfirmSingleDelete(index)}
                       selectedCount={1}
                       trigger={
                         <button

@@ -20,6 +20,7 @@
     "lucide-react": "^0.525.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-fox-toast": "^1.10.20",
     "react-router-dom": "^7.6.3",
     "react-toggle-dark-mode": "^1.1.1",
     "tailwind-merge": "^3.3.1",
