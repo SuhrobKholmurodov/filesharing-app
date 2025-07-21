@@ -30,6 +30,7 @@ It’s designed for simplicity and speed, ideal for quick file sharing without a
 - 🚀 Vite for fast development  
 - 🎨 Tailwind CSS for styling and responsiveness  
 - 🖼️ Lucide React for icons  
+- 🛠️ shadcn/ui — UI components built on Radix UI and Tailwind CSS  
 - 🔧 Custom reusable components for dialogs and notifications  
 
 ---
