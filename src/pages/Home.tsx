@@ -1,9 +1,15 @@
 import { CloudUpload, File, HardDrive, Lock, Zap, Smile } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import houseIcon from "../assets/house.png";
 
 const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center backdrop-blur-md px-[200px] py-16 sm:px-4 sm:py-0">
+      <Helmet>
+        <title>Home | FileShare</title>
+        <link rel="icon" type="image/png" href={houseIcon} />
+      </Helmet>
       <div className="text-center">
         <div className="flex justify-center mb-6 sm:mb-4">
           <HardDrive className="w-12 h-12 text-orange-500 sm:w-8 sm:h-8" />

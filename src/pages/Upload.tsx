@@ -1,6 +1,8 @@
 import { CircleCheck, CloudUpload } from "lucide-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+import uploadIcon from "../assets/upload.png";
 
 const Upload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -34,6 +36,10 @@ const Upload = () => {
 
   return (
     <div className="flex items-center justify-center h-[70vh] w-full bg-gray-50 sm:bg-transparent overflow-hidden">
+      <Helmet>
+        <title>Upload files | FileShare</title>
+        <link rel="icon" type="image/png" href={uploadIcon} />
+      </Helmet>
       <div className="w-full max-w-md mx-4">
         <div className="bg-white rounded-xl shadow-xl p-8 transition-all duration-300 transform hover:shadow-2xl">
           <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">

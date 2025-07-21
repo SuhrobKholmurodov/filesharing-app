@@ -7,8 +7,11 @@ import {
   Trash2,
 } from "lucide-react";
 import { toast } from "react-fox-toast";
+import { Helmet } from "react-helmet-async";
 import { fileTypeToIcon } from "@/utils";
 import DeleteDialog from "@/components/common/DeleteDialog";
+import foldersIcon from "../assets/folders.png";
+
 interface FileData {
   name: string;
   size: string;
@@ -91,6 +94,10 @@ const Files = () => {
 
   return (
     <div className="flex flex-col sm:bg-transparent bg-gray-100">
+      <Helmet>
+        <title>My Files | FileShare</title>
+        <link rel="icon" type="image/png" href={foldersIcon} />
+      </Helmet>
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
