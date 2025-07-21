@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import { DownloadCloud, File, HardDrive, Trash2 } from "lucide-react";
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "@/components/ui/alert-dialog";
 import { fileTypeToIcon } from "@/utils";
+import DeleteDialog from "@/components/common/DeleteDialog";
 interface FileData {
   name: string;
   size: string;
@@ -78,10 +68,12 @@ const Files = () => {
                 } transition-colors`}
               >
                 <DownloadCloud size={18} className="mr-2" />
-                Download
+                Download ({selectedFiles.size})
               </button>
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
+              <DeleteDialog
+                onConfirm={handleDeleteSelected}
+                selectedCount={selectedFiles.size}
+                trigger={
                   <button
                     disabled={selectedFiles.size === 0}
                     className={`flex items-center px-4 py-2 rounded-lg ${
@@ -91,25 +83,10 @@ const Files = () => {
                     } transition-colors`}
                   >
                     <Trash2 size={18} className="mr-2" />
-                    Delete
+                    Delete ({selectedFiles.size})
                   </button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want to delete the selected files? This
-                      action is irreversible.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDeleteSelected}>
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
+                }
+              />
             </div>
           </div>
         </div>
@@ -169,43 +146,23 @@ const Files = () => {
                     >
                       <DownloadCloud size={20} />
                     </button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
+                    <DeleteDialog
+                      onConfirm={() => {
+                        const newFiles = [...files];
+                        newFiles.splice(index, 1);
+                        setFiles(newFiles);
+                        localStorage.setItem("files", JSON.stringify(newFiles));
+                      }}
+                      selectedCount={1}
+                      trigger={
                         <button
                           className="text-red-500 hover:text-red-700 transition-colors"
                           title="Delete"
                         >
                           <Trash2 size={20} />
                         </button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Confirm File Deletion
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Are you sure you want to delete this file? You can’t
-                            undo this.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => {
-                              const newFiles = [...files];
-                              newFiles.splice(index, 1);
-                              setFiles(newFiles);
-                              localStorage.setItem(
-                                "files",
-                                JSON.stringify(newFiles)
-                              );
-                            }}
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                      }
+                    />
                   </div>
                 </div>
               ))}
