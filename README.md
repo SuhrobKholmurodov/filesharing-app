@@ -1,69 +1,44 @@
-# React + TypeScript + Vite
+# 📂 File Sharing App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and fast **File Sharing** web app built with **React**, **TypeScript**, and **Vite**.  
+Allows users to upload, manage, download, and delete files locally in the browser using `localStorage`.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## About
 
-## Expanding the ESLint configuration
+This project enables users to securely upload files, view a list of uploaded files, download selected files, and delete them—all with a clean and responsive UI.  
+It’s designed for simplicity and speed, ideal for quick file sharing without any backend setup.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- 📁 Upload files and store them in browser's `localStorage`  
+- 👁️ View uploaded files with file type icons and size  
+- ✅ Select multiple files to download or delete at once  
+- ⚠️ Confirmation dialogs for deletions with file count shown  
+- 🔔 Toast notifications for successful actions  
+- 📱 Fully responsive design with mobile support  
+- 🎨 Clean UI using Tailwind CSS and Lucide React icons  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- ⚛️ React 18 + TypeScript  
+- 🚀 Vite for fast development  
+- 🎨 Tailwind CSS for styling and responsiveness  
+- 🖼️ Lucide React for icons  
+- 🔧 Custom reusable components for dialogs and notifications  
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## Getting Started
+
+### Install dependencies
+
+```bash
+npm install
+# or
+yarn install
