@@ -1,12 +1,14 @@
-import { CircleCheck, CloudUpload } from "lucide-react";
+import { CircleCheck, CloudUpload, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-fox-toast";
 import uploadIcon from "../assets/upload.png";
 
 const Upload = () => {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
   const navigate = useNavigate();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +20,7 @@ const Upload = () => {
 
   const handleSubmit = () => {
     if (file) {
+      setIsUploading(true);
       const reader = new FileReader();
       reader.onloadend = () => {
         const fileData = {
@@ -28,7 +31,14 @@ const Upload = () => {
         const files = JSON.parse(localStorage.getItem("files") || "[]");
         files.push(fileData);
         localStorage.setItem("files", JSON.stringify(files));
-        navigate("/files");
+
+        toast.success("File uploaded successfully!", {
+          position: "top-center",
+        });
+
+        setTimeout(() => {
+          navigate("/files");
+        }, 1000);
       };
       reader.readAsDataURL(file);
     }
@@ -74,21 +84,30 @@ const Upload = () => {
 
           <button
             onClick={handleSubmit}
-            disabled={!file}
+            disabled={!file || isUploading}
             className={`w-full py-3 px-4 rounded-lg font-medium shadow-md transition-all duration-300 ${
-              file
+              file && !isUploading
                 ? "bg-gradient-to-r from-orange-500 to-orange-400 text-white hover:from-orange-600 hover:to-orange-500 transform hover:-translate-y-1"
                 : "bg-gray-200 text-gray-500 cursor-not-allowed"
             }`}
           >
-            {file ? "Upload Now" : "Select File First"}
+            {isUploading ? (
+              <div className="flex items-center justify-center gap-2">
+                <Loader2 className="animate-spin h-5 w-5" />
+                Uploading...
+              </div>
+            ) : file ? (
+              "Upload Now"
+            ) : (
+              "Select File First"
+            )}
           </button>
 
           {file && (
             <div className="mt-4 bg-gray-100 p-3 rounded-lg text-center break-words">
               <p className="text-sm text-gray-600">
                 Ready to upload:
-                <span className="font-medium break-words">{fileName}</span>
+                <span className="font-medium break-words"> {fileName}</span>
               </p>
             </div>
           )}
