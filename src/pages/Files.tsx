@@ -28,13 +28,29 @@ const Files = () => {
     setFiles(storedFiles);
   }, []);
 
-  const handleDownload = (file: FileData) => {
+  const handleDownload = (file: FileData, showToast = true) => {
     const link = document.createElement("a");
     link.href = file.content;
     link.download = file.name;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    if (showToast) {
+      toast.custom(
+        <div className="flex items-center gap-2 text-sm font-medium">
+          <span>"{file.name}" downloaded successfully!</span>
+        </div>,
+        {
+          position: "top-center",
+          icon: (
+            <div className="flex size-8 items-center justify-center rounded-lg bg-green-100 text-green-600">
+              <DownloadCloud size={18} />
+            </div>
+          ),
+        }
+      );
+    }
   };
 
   const handleSelectFile = (index: number) => {
@@ -57,8 +73,21 @@ const Files = () => {
 
   const handleDownloadSelected = () => {
     selectedFiles.forEach((index) => {
-      handleDownload(files[index]);
+      handleDownload(files[index], false);
     });
+    toast.custom(
+      <div className="flex items-center gap-2 text-sm font-medium">
+        <span>{selectedFiles.length} file(s) downloaded successfully!</span>
+      </div>,
+      {
+        position: "top-center",
+        icon: (
+          <div className="flex size-8 items-center justify-center rounded-lg bg-green-100 text-green-600">
+            <DownloadCloud size={18} />
+          </div>
+        ),
+      }
+    );
   };
 
   const handleDeleteSelected = () => {
