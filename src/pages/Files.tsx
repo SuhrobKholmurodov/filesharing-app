@@ -17,9 +17,11 @@ interface FileData {
   size: string;
   content: string;
 }
+
 const Files = () => {
   const [files, setFiles] = useState<FileData[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
+  const [selectedFiles, setSelectedFiles] = useState<number[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
 
   useEffect(() => {
     const storedFiles = JSON.parse(localStorage.getItem("files") || "[]");
@@ -36,13 +38,21 @@ const Files = () => {
   };
 
   const handleSelectFile = (index: number) => {
-    const newSelectedFiles = new Set(selectedFiles);
-    if (newSelectedFiles.has(index)) {
-      newSelectedFiles.delete(index);
+    if (selectedFiles.includes(index)) {
+      setSelectedFiles(selectedFiles.filter((i) => i !== index));
     } else {
-      newSelectedFiles.add(index);
+      setSelectedFiles([...selectedFiles, index]);
     }
-    setSelectedFiles(newSelectedFiles);
+  };
+
+  const handleSelectAllFiles = () => {
+    if (selectAll) {
+      setSelectedFiles([]);
+    } else {
+      const allIndexes = files.map((_, index) => index);
+      setSelectedFiles(allIndexes);
+    }
+    setSelectAll(!selectAll);
   };
 
   const handleDownloadSelected = () => {
@@ -52,11 +62,14 @@ const Files = () => {
   };
 
   const handleDeleteSelected = () => {
-    const updatedFiles = files.filter((_, index) => !selectedFiles.has(index));
+    const updatedFiles = files.filter(
+      (_, index) => !selectedFiles.includes(index)
+    );
     setFiles(updatedFiles);
     localStorage.setItem("files", JSON.stringify(updatedFiles));
-    const count = selectedFiles.size;
-    setSelectedFiles(new Set());
+    const count = selectedFiles.length;
+    setSelectedFiles([]);
+    setSelectAll(false);
     toast.custom(
       <div className="flex items-center gap-2 text-sm font-medium">
         <span>{count} file(s) deleted successfully!</span>
@@ -101,39 +114,39 @@ const Files = () => {
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl  font-bold flex items-center space-x-2">
+            <h1 className="text-2xl font-bold flex items-center space-x-2">
               <HardDrive className="text-indigo-600" />
               <span className="sm:hidden">File Manager</span>
             </h1>
             <div className="flex space-x-3">
               <button
                 onClick={handleDownloadSelected}
-                disabled={selectedFiles.size === 0}
+                disabled={selectedFiles.length === 0}
                 className={`flex items-center px-4 py-2 rounded-lg ${
-                  selectedFiles.size === 0
+                  selectedFiles.length === 0
                     ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                     : "bg-indigo-100 text-indigo-600 hover:bg-indigo-200"
                 } transition-colors`}
               >
                 <DownloadCloud size={18} className="mr-2" />
                 <span className="sm:hidden">Download</span> (
-                {selectedFiles.size})
+                {selectedFiles.length})
               </button>
               <DeleteDialog
                 onConfirm={handleDeleteSelected}
-                selectedCount={selectedFiles.size}
+                selectedCount={selectedFiles.length}
                 trigger={
                   <button
-                    disabled={selectedFiles.size === 0}
+                    disabled={selectedFiles.length === 0}
                     className={`flex items-center px-4 py-2 rounded-lg ${
-                      selectedFiles.size === 0
+                      selectedFiles.length === 0
                         ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                         : "bg-red-100 text-red-600 hover:bg-red-200"
                     } transition-colors`}
                   >
                     <Trash2 size={18} className="mr-2" />
                     <span className="sm:hidden">Delete</span> (
-                    {selectedFiles.size})
+                    {selectedFiles.length})
                   </button>
                 }
               />
@@ -162,6 +175,17 @@ const Files = () => {
             </div>
           ) : (
             <div className="divide-y divide-gray-200">
+              <div className="flex items-center px-6 py-4 hover:bg-gray-50 transition-colors">
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAllFiles}
+                  className="h-4 w-4 text-indigo-600 rounded border-gray-300 mr-4"
+                />
+                <span className="text-sm font-medium text-gray-900">
+                  Select All
+                </span>
+              </div>
               {files.map((file, index) => (
                 <div
                   key={index}
@@ -169,7 +193,7 @@ const Files = () => {
                 >
                   <input
                     type="checkbox"
-                    checked={selectedFiles.has(index)}
+                    checked={selectedFiles.includes(index)}
                     onChange={() => handleSelectFile(index)}
                     className="h-4 w-4 text-indigo-600 rounded border-gray-300 mr-4"
                   />
